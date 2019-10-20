@@ -1,0 +1,14 @@
+{
+  "manifest_version": 2,
+  "name": "HNim",
+  "version": "0.1",
+
+  "description": "Adds some VIM keybindings to HackerNews comments",
+
+  "content_scripts": [
+    {
+      "matches": ["*://news.ycombinator.com/*"],
+      "js": ["hnim.js"]
+    }
+  ]
+}
