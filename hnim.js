@@ -34,33 +34,43 @@
   const changeUppage = (comment) => {
     changeWithVisibleCallback(comment, () => {window.scrollTo(0, window.scrollY - comment.offsetHeight)});
   }
-  
+
   document.addEventListener("click", (e) => {
     change(e.target.closest("tr.athing"));
   })
   document.addEventListener("keydown", (e) => {
     if (e.isComposing) {
-      return; 
+      return;
     }
-    if (e.key == "j") {
-      do {
-        changeDownpage(selectedComment.nextElementSibling);
-      } while (selectedComment.classList.contains("noshow"));
-    }
-    if (e.key == "k") {
-      do {
-        changeUppage(selectedComment.previousElementSibling);
-      } while (selectedComment.classList.contains("noshow"));
-    }
-    if (e.key == "Enter") {
-      let togg = selectedComment.querySelector(".togg");
-      let more = selectedComment.querySelector(".morelink");
-      if (togg) {
-        togg.click();
-      }
-      else if (more) {
-        more.click();
-      }
+    switch (e.key) {
+      case "j":
+        do {
+          changeDownpage(selectedComment.nextElementSibling);
+        } while (selectedComment.classList.contains("noshow"));
+        break;
+      case "k":
+        do {
+          changeUppage(selectedComment.previousElementSibling);
+        } while (selectedComment.classList.contains("noshow"));
+        break;
+      case "m":
+      case "Enter":
+        let togg = selectedComment.querySelector(".togg");
+        let more = selectedComment.querySelector(".morelink");
+        if (togg) {
+          togg.click();
+        }
+        else if (more) {
+          more.click();
+        }
+        break;
+      case "p":
+        while (selectedComment.querySelector("td.ind").firstElementChild.width != 0) {
+          changeUppage(selectedComment.previousElementSibling);
+        }
+        break;
+      default:
+        //noop
     }
   })
 })();
