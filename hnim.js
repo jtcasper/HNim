@@ -8,7 +8,7 @@
     ...Array.from(comments),
     ...Array.from(morelink),
   ];
-  
+
   let elementsIndex = 0;
   let selectedElement = elements[elementsIndex];
   selectedElement.style.outline = '1px dashed black';
@@ -37,7 +37,7 @@
 
   // Curry callback for moving downpage
   const changeDownpage = () => {
-    elementsIndex = Math.min(elementsIndex + 1, elements.length);
+    elementsIndex = Math.min(elementsIndex + 1, elements.length - 1);
     changeWithVisibleCallback(elements[elementsIndex], () => {window.scrollTo(0, window.scrollY + selectedElement.offsetHeight)});
   }
 
