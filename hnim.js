@@ -1,7 +1,11 @@
 (() => {
-  const comments = document.querySelector(".comment-tree > tbody");
+  const comments = document.querySelectorAll("tr.comtr");
+  const morelink = document.querySelectorAll("a.morelink");
+
+  const elements = [...Array.from(comments), ...Array.from(morelink)]
   
-  let selectedComment = comments.firstElementChild
+  let elementsIndex = 0;
+  let selectedComment = elements[elementsIndex]
   selectedComment.style.outline = '1px dashed black';
 
   const visible = (element) => {
@@ -22,17 +26,20 @@
   }
 
   const change = (comment) => {
+    elementsIndex = elements.indexOf(comment);
     changeWithVisibleCallback(comment, () => {});
   }
 
   // Curry callback for moving downpage
-  const changeDownpage = (comment) => {
-    changeWithVisibleCallback(comment, () => {window.scrollTo(0, window.scrollY + comment.offsetHeight)});
+  const changeDownpage = () => {
+    elementsIndex = Math.min(elementsIndex + 1, elements.length);
+    changeWithVisibleCallback(elements[elementsIndex], () => {window.scrollTo(0, window.scrollY + selectedComment.offsetHeight)});
   }
 
   // Curry callback for moving up page
-  const changeUppage = (comment) => {
-    changeWithVisibleCallback(comment, () => {window.scrollTo(0, window.scrollY - comment.offsetHeight)});
+  const changeUppage = () => {
+    elementsIndex = Math.max(elementsIndex - 1, 0);
+    changeWithVisibleCallback(elements[elementsIndex], () => {window.scrollTo(0, window.scrollY - selectedComment.offsetHeight)});
   }
 
   document.addEventListener("click", (e) => {
@@ -45,28 +52,27 @@
     switch (e.key) {
       case "j":
         do {
-          changeDownpage(selectedComment.nextElementSibling);
+          changeDownpage();
         } while (selectedComment.classList.contains("noshow"));
         break;
       case "k":
         do {
-          changeUppage(selectedComment.previousElementSibling);
+          changeUppage();
         } while (selectedComment.classList.contains("noshow"));
         break;
       case "m":
       case "Enter":
         let togg = selectedComment.querySelector(".togg");
-        let more = selectedComment.querySelector(".morelink");
         if (togg) {
           togg.click();
         }
-        else if (more) {
-          more.click();
+        else if (elementsIndex == elements.length - 1) {
+          selectedComment.click();
         }
         break;
       case "p":
         while (selectedComment.querySelector("td.ind").firstElementChild.width != 0) {
-          changeUppage(selectedComment.previousElementSibling);
+          changeUppage();
         }
         break;
       default:
