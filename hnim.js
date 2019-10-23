@@ -1,12 +1,17 @@
 (() => {
   const comments = document.querySelectorAll("tr.comtr");
+  const items = document.querySelectorAll("table.itemlist tr.athing");
   const morelink = document.querySelectorAll("a.morelink");
 
-  const elements = [...Array.from(comments), ...Array.from(morelink)]
+  const elements = [
+    ...Array.from(items),
+    ...Array.from(comments),
+    ...Array.from(morelink),
+  ];
   
   let elementsIndex = 0;
-  let selectedComment = elements[elementsIndex]
-  selectedComment.style.outline = '1px dashed black';
+  let selectedElement = elements[elementsIndex];
+  selectedElement.style.outline = '1px dashed black';
 
   const visible = (element) => {
     let bounds = element.getBoundingClientRect();
@@ -17,9 +22,9 @@
     if (comment == null) {
       return;
     }
-    selectedComment.style.outline = '';
-    selectedComment = comment;
-    selectedComment.style.outline = '1px dashed black';
+    selectedElement.style.outline = '';
+    selectedElement = comment;
+    selectedElement.style.outline = '1px dashed black';
     if (!visible(comment)) {
       callback();
     }
@@ -33,13 +38,13 @@
   // Curry callback for moving downpage
   const changeDownpage = () => {
     elementsIndex = Math.min(elementsIndex + 1, elements.length);
-    changeWithVisibleCallback(elements[elementsIndex], () => {window.scrollTo(0, window.scrollY + selectedComment.offsetHeight)});
+    changeWithVisibleCallback(elements[elementsIndex], () => {window.scrollTo(0, window.scrollY + selectedElement.offsetHeight)});
   }
 
   // Curry callback for moving up page
   const changeUppage = () => {
     elementsIndex = Math.max(elementsIndex - 1, 0);
-    changeWithVisibleCallback(elements[elementsIndex], () => {window.scrollTo(0, window.scrollY - selectedComment.offsetHeight)});
+    changeWithVisibleCallback(elements[elementsIndex], () => {window.scrollTo(0, window.scrollY - selectedElement.offsetHeight)});
   }
 
   document.addEventListener("click", (e) => {
@@ -53,25 +58,27 @@
       case "j":
         do {
           changeDownpage();
-        } while (selectedComment.classList.contains("noshow"));
+        } while (selectedElement.classList.contains("noshow"));
         break;
       case "k":
         do {
           changeUppage();
-        } while (selectedComment.classList.contains("noshow"));
+        } while (selectedElement.classList.contains("noshow"));
         break;
       case "m":
       case "Enter":
-        let togg = selectedComment.querySelector(".togg");
+        let togg = selectedElement.querySelector(".togg");
         if (togg) {
           togg.click();
         }
         else if (elementsIndex == elements.length - 1) {
-          selectedComment.click();
+          selectedElement.click();
         }
         break;
+      case "o":
+        window.location.href = "https://news.ycombinator.com/item?id=" + selectedElement.id;
       case "p":
-        while (selectedComment.querySelector("td.ind").firstElementChild.width != 0) {
+        while (selectedElement.querySelector("td.ind").firstElementChild.width != 0) {
           changeUppage();
         }
         break;
