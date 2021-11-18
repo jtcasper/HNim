@@ -25,7 +25,7 @@
     selectedElement.style.outline = '';
     selectedElement = comment;
     selectedElement.style.outline = '1px dashed black';
-    if (!visible(comment)) {
+    while (!visible(comment)) {
       callback();
     }
   }
