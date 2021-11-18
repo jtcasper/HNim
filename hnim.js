@@ -37,7 +37,7 @@
 
   // Curry callback for moving downpage
   const changeDownpage = () => {
-    elementsIndex = Math.min(elementsIndex + 1, elements.length);
+    elementsIndex = Math.min(elementsIndex + 1, elements.length - 1);
     changeWithVisibleCallback(elements[elementsIndex], () => {window.scrollTo(0, window.scrollY + selectedElement.offsetHeight)});
   }
 
