@@ -51,7 +51,7 @@
     change(e.target.closest("tr.athing"));
   })
   document.addEventListener("keydown", (e) => {
-    if (e.isComposing) {
+    if (e.target.type === 'textarea' || e.isComposing) {
       return;
     }
     switch (e.key) {
