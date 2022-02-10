@@ -32,7 +32,7 @@
 
   const change = (comment) => {
     elementsIndex = elements.indexOf(comment);
-    changeWithVisibleCallback(comment, () => {});
+    changeWithVisibleCallback(comment, () => {comment.scrollIntoView()});
   }
 
   // Curry callback for moving downpage
