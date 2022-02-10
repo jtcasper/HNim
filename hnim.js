@@ -15,7 +15,7 @@
 
   const visible = (element) => {
     let bounds = element.getBoundingClientRect();
-    return bounds.top >= 0 && bounds.bottom <= window.innerHeight;
+    return Math.abs(bounds.bottom - bounds.top) > window.innerHeight || bounds.top >= 0 && bounds.bottom <= window.innerHeight;
   }
 
   const changeWithVisibleCallback = (comment, callback) => {
